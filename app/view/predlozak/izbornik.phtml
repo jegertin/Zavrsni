@@ -13,6 +13,7 @@
       </li>
       <li><a href="<?=App::config('url')?>index/era">ERA</a></li>
       <li><a href="<?=App::config('url')?>index/kontakt">Kontakt</a></li>
+      <?php if(isset($_SESSION['autoriziran'])): ?>
       <li <?php 
       if(in_array($_SERVER['REQUEST_URI'],[
         '/papir/index',
@@ -43,6 +44,7 @@
               }?>><a href="<?=App::config('url')?>usluga/index">Usluga</a></li>
           </ul>
         </li>
+        <?php endif;?>
       <?php if(isset($_SESSION['autoriziran'])): ?>
         <li><a href="<?=App::config('url')?>nadzornaploca/index"><?=$_SESSION['autoriziran']->ime?> <?=$_SESSION['autoriziran']->prezime?> | <?=$_SESSION['autoriziran']->uloga?></a></li>
       <?php endif;?>
