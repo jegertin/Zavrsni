@@ -11,11 +11,41 @@
             <?=App::config('nazivApp')?>
         </a>
       </li>
-      <?php if(isset($_SESSION['autoriziran'])): ?>
-      <a href="<?=App::config('url')?>nadzornaploca/index">Nadzorna Ploca</a>
-      <?php endif;?>
       <li><a href="<?=App::config('url')?>index/era">ERA</a></li>
       <li><a href="<?=App::config('url')?>index/kontakt">Kontakt</a></li>
+      <li <?php 
+      if(in_array($_SERVER['REQUEST_URI'],[
+        '/papir/index',
+        '/racun/index',
+        '/djelatnik/index',
+        '/usluga/index'
+        ])){
+        echo 'class="active"';
+      }?>>
+      <a href="#">Ponuda</a>
+          <ul class="vertical menu">
+            <li <?php 
+              if($_SERVER['REQUEST_URI']=='/papir/index'){
+                echo 'class="active"';
+              }?>>
+            <a href="<?=App::config('url')?>papir/index">Papir</a></li>
+            <li <?php 
+              if($_SERVER['REQUEST_URI']=='/racun/index'){
+                echo 'class="active"';
+              }?>><a href="<?=App::config('url')?>racun/index">Račun</a></li>
+            <li <?php 
+              if($_SERVER['REQUEST_URI']=='/djelatnik/index'){
+                echo 'class="active"';
+              }?>><a href="<?=App::config('url')?>djelatnik/index">Djelatnik</a></li>
+            <li <?php 
+              if($_SERVER['REQUEST_URI']=='/usluga/index'){
+                echo 'class="active"';
+              }?>><a href="<?=App::config('url')?>usluga/index">Usluga</a></li>
+          </ul>
+        </li>
+      <?php if(isset($_SESSION['autoriziran'])): ?>
+        <li><a href="<?=App::config('url')?>nadzornaploca/index"><?=$_SESSION['autoriziran']->ime?> <?=$_SESSION['autoriziran']->prezime?> | <?=$_SESSION['autoriziran']->uloga?></a></li>
+      <?php endif;?>
     </ul>
   </div>
   <div class="top-bar-right">
