@@ -16,6 +16,8 @@ insert into operater values(null,'edunova@edunova.hr','$2y$10$Yrbpxrsw8GCNdX5GWP
 
 insert into operater values(null,'oper@edunova.hr','$2y$10$bU9R9tYvUwsj33u18JsTme7NmexjN8CjdGDLNesBmpbYARXFX5hAu','Operater','Kopirnice','Oper');
 
+insert
+
 create table djelatnik(
     sifra int not null primary key auto_increment,
     ime varchar(50) not null,

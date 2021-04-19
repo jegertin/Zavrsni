@@ -11,6 +11,9 @@
             <?=App::config('nazivApp')?>
         </a>
       </li>
+      <?php if(isset($_SESSION['autoriziran'])): ?>
+      <a href="<?=App::config('url')?>nadzornaploca/index">Nadzorna Ploca</a>
+      <?php endif;?>
       <li><a href="<?=App::config('url')?>index/era">ERA</a></li>
       <li><a href="<?=App::config('url')?>index/kontakt">Kontakt</a></li>
     </ul>

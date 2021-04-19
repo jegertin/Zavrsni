@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'url'=>'http://polaznik28.edunova.hr/',
+    'url'=>'http://polaznik28.hr/',
     'nazivApp'=>'Edunova App'
 ];
