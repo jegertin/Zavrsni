@@ -24,7 +24,7 @@ class DjelatnikController extends AutorizacijaController
             }
             $this->entitet = (object) $_POST;
 
-            Djelatnik::dodajNovu($this->entitet);
+            Djelatnik::dodajNovog($this->entitet);
             $this->index();
 
     }

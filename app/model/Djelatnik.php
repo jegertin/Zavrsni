@@ -16,7 +16,7 @@ class Djelatnik
         return $izraz->fetchAll();
     }
 
-    public static function dodajNovi($entitet)
+    public static function dodajNovog($entitet)
     {
         $veza = DB::getInstanca();
         $veza->beginTransaction();
