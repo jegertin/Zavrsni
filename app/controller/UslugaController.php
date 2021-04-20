@@ -66,7 +66,7 @@ class UslugaController extends AutorizacijaController
 
     private function novaUsluga()
     {
-        $this->usluga = new stdClass();
+            $this->usluga = new stdClass();
             $this->usluga->naziv='';
             $this->usluga->cijena='';
             $this->poruka='Unesite tražene podatke';
@@ -102,7 +102,7 @@ class UslugaController extends AutorizacijaController
             $this->novoView();
             return false;
         }
-    return true;
+        return true;
     }
 
     private function kontrolaCijena()

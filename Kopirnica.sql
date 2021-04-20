@@ -56,7 +56,7 @@ alter table racun add foreign key (papir) references papir(sifra);
 
 insert into djelatnik(sifra,ime,prezime,oib,email,iban)values
 (null,'Tin','Jeger','25465872012','tinjeger@edunova.hr','HR2910592150129523678'),
-(null,'Marin','Amidzic','91842195123','marinamidzic@edunova.hr','HR910528102915684102104');
+(null,'Marin','Amidzic','91842195123','marinamidzic@edunova.hr','HR9105281029684102104');
 
 insert into usluga(sifra,naziv,cijena) values
 (null,'Kopiranje',1),

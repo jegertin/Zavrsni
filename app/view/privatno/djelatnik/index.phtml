@@ -1,0 +1,17 @@
+<table>
+    <thead>
+            <tr>
+                <th>Ime i prezime</th><th>OIB</th><th>Email</th><th>IBAN</th>
+            </tr>
+    </thead>
+    <tbody>
+        <?php foreach($entiteti as $red): ?>
+            <tr>
+                <td><?=$red->ime?> <?=$red->prezime?></td>
+                <td><?=$red->oib?></td>
+                <td><?=$red->email?></td>
+                <td><?=$red->iban?></td>
+            </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
