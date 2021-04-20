@@ -1,7 +1,13 @@
 <table>
     <thead>
             <tr>
-                <th>Ime i prezime</th><th>OIB</th><th>Email</th><th>IBAN</th>
+                <th>Ime i prezime djelatnika</th>
+                <th>OIB</th>
+                <th>Email</th>
+                <th>IBAN</th>
+                <th style="text-align: right;">
+                <a href="<?=App::config('url')?>djelatnik/novo">Dodaj novog</a>
+                </th>
             </tr>
     </thead>
     <tbody>
@@ -11,6 +17,15 @@
                 <td><?=$red->oib?></td>
                 <td><?=$red->email?></td>
                 <td><?=$red->iban?></td>
+                <td>
+                    <a href="<?=App::config('url')?>djelatnik/promjena?sifra=<?=$djelatnik->sifra?>">Promjeni
+                    </a>
+                    <?php if($red->ukupnoracuna==0):?>
+                        <a href="<?=App::config('url')?>djelatnik/brisanje?sifra=<?=$djelatnik->sifra?>"
+                        onclick="return confirm('Sigurno obrisati <?=$red->ime?> '.' <?=$red->prezime?>?');">Obriši
+                        </a>
+                    <?php endif;?>
+                </td>
             </tr>
         <?php endforeach;?>
     </tbody>

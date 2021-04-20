@@ -15,5 +15,38 @@ class DjelatnikController extends AutorizacijaController
             'entiteti'=>Djelatnik::ucitajSve()
         ]);
     }
+
+    public function novo()
+    {
+            if($_SERVER['REQUEST_METHOD']==='GET'){
+                $this->noviEntitet();
+                return;
+            }
+            $this->entitet = (object) $_POST;
+
+            Djelatnik::dodajNovu($this->entitet);
+            $this->index();
+
+    }
+
+    private function noviEntitet()
+    {
+            $this->entitet = new stdClass();
+            $this->entitet->ime='';
+            $this->entitet->prezime='';
+            $this->entitet->oib='';
+            $this->entitet->email='';
+            $this->entitet->iban='';
+            $this->poruka='Unesite tražene podatke';
+            $this->novoView();
+    }
+
+    private function novoView()
+    {
+        $this->view->render($this->viewDir . 'novo',[
+            'entitet'=>$this->entitet,
+            'poruka'=>$this->poruka
+        ]);
+    }
     
 }
