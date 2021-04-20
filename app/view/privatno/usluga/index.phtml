@@ -1,0 +1,13 @@
+<h1 style="font-size: 1em;">Usluga</h1>
+<a href="<?=App::config('url')?>usluga/novo">Dodaj novu uslugu</a>
+<ul>
+<?php foreach($usluge as $usluga): ?>
+    <li>
+        <?=$usluga->naziv?>
+        <a href="<?=App::config('url')?>usluga/promjena?sifra=<?=$usluga->sifra?>">
+            Promjeni
+        </a>
+        <a href="#">Obriši</a>
+    </li>
+<?php endforeach; ?>
+</ul>

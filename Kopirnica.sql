@@ -6,7 +6,7 @@ use kopirnica;
 create table operater(
     sifra int not null primary key auto_increment,
     email varchar(50) not null,
-    lozinka char(60) not null,
+    lozinka varchar(60) not null,
     ime varchar(50) not null,
     prezime varchar(50) not null,
     uloga varchar(10) not null
@@ -54,4 +54,18 @@ alter table papir add foreign key (usluga) references usluga(sifra);
 alter table racun add foreign key (djelatnik) references djelatnik(sifra);
 alter table racun add foreign key (papir) references papir(sifra);
 
-select * from operater;
+insert into djelatnik(sifra,ime,prezime,oib,email,iban)values
+(null,'Tin','Jeger','25465872012','tinjeger@edunova.hr','HR2910592150129523678'),
+(null,'Marin','Amidzic','91842195123','marinamidzic@edunova.hr','HR910528102915684102104');
+
+insert into usluga(sifra,naziv,cijena) values
+(null,'Kopiranje',1),
+(null,'Skeniranje',2);
+
+insert into papir(sifra,vrstapapira,usluga) values
+(null,'80gramski',1),
+(null,'250gramski',2);
+
+insert into racun(sifra,djelatnik,vrstaracuna,usluga,papir) values
+(null,2,'Obican',1,1),
+(null,1,'R1',2,2);
