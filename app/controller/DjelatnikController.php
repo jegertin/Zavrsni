@@ -48,5 +48,17 @@ class DjelatnikController extends AutorizacijaController
             'poruka'=>$this->poruka
         ]);
     }
+
+    public function brisanje()
+    {
+        if(!isset($_GET['sifra'])){
+                $ic = new IndexController();
+                $ic->logout();
+                return;
+        }
+        Djelatnik::obrisiPostojeceg($_GET['sifra']);
+        header('location: ' . App::config('url') . 'djelatnik/index');
+        
+    }
     
 }

@@ -1,38 +1,27 @@
-<div class="table-scroll">
 <table>
     <thead>
-        <tr>
-        <th>
-            <a href="<?=App::config('url')?>grupa/novo">Dodaj novu</a>
-            </th>
-            <th>Naziv</th>
-            <th>Smjer</th>
-            <th>Predavač</th>
-            <th>Datum početka</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>Klijent</th>
+                <th>Cijena</th>
+                <a href="<?=App::config('url')?>djelatnik/novo">Dodaj novi</a>
+                </th>
+            </tr>
     </thead>
     <tbody>
-        <?php foreach($entiteti as $red): ?>
+        <?php foreach($racuni as $red): ?>
             <tr>
-            <td>
-                    <a href="<?=App::config('url')?>grupa/promjena?sifra=<?=$red->sifra?>">
-                        <i title="promjena" class="fas fa-2x fa-pencil-alt"></i>
+                <td><?=$red->klijent?></td>
+                <td><?=$red->cijena?></td>
+                <!-- <td>
+                    <a href="<?=App::config('url')?>djelatnik/promjena?sifra=<?=$red->sifra?>">Promjeni
                     </a>
-                    
-                </td>
-                <td><?=$red->naziv?></td>
-                <td><?=$red->smjer?></td>
-                <td><?=$red->predavac?></td>
-                <td><?=$red->datumpocetka?></td>
-                <td><?php if($red->polaznika==0): ?>
-                        <a href="<?=App::config('url')?>grupa/brisanje?sifra=<?=$red->sifra?>"
-                        onclick="return confirm('Sigurno obrisati <?=Funkcije::escapeSingleQuote($red->naziv) ?>?');">
-                        <i title="brisanje" style="color: red" class="fas fa-trash-alt"></i></a>
-                    <?php endif;?></td>
+                    <?php if($red->ukupnoracuna==0):?>
+                        <a href="<?=App::config('url')?>djelatnik/brisanje?sifra=<?=$red->sifra?>"
+                        onclick="return confirm('Sigurno obrisati <?=$red->ime . ' ' . $red->prezime?>?');">Obriši
+                        </a>
+                    <?php endif;?>
+                </td> -->
             </tr>
-
-        <?php endforeach; ?>
+        <?php endforeach;?>
     </tbody>
 </table>
-</div>

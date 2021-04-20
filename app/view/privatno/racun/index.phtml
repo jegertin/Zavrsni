@@ -1,0 +1,31 @@
+<table>
+    <thead>
+            <tr>
+                <th>Klijent</th>
+                <th>Djelatnik</th>
+                <th>Vrsta Papira</th>
+                <th>Vrsta Usluge</th>
+                <th>Ukupna Cijena</th>
+                <a href="<?=App::config('url')?>racun/novo">Dodaj novi</a>
+                </th>
+            </tr>
+    </thead>
+    <tbody>
+        <?php foreach($racuni as $red): ?>
+            <tr>
+                <td><?=$red->klijent?></td>
+                <td><?=$red->nazivDjelatnika?></td>
+                <td><?=$red->vrstaPapira?></td>
+                <td><?=$red->nazivUsluge?></td>
+                <td><?=$red->cijena?></td>
+                <td>
+                    <a href="<?=App::config('url')?>racun/promjena?sifra=<?=$red->sifra?>">Promjeni
+                    </a>
+                    <a href="<?=App::config('url')?>racun/brisanje?sifra=<?=$red->sifra?>"
+                    onclick="return confirm('Sigurno obrisati racun za <?=$red->klijent?>?');">Obriši
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>

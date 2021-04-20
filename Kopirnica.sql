@@ -37,20 +37,18 @@ create table usluga(
 
 create table papir(
     sifra int not null primary key auto_increment,
-    vrstapapira varchar(30),
-    usluga int not null
+    vrstapapira varchar(30)
 );
 
 create table racun(
     sifra int not null primary key auto_increment,
     djelatnik int not null,
-    vrstaracuna varchar(30),
+    klijent varchar(50),
     usluga int not null,
     papir int not null
 );
 
 alter table racun add foreign key (usluga) references usluga(sifra);
-alter table papir add foreign key (usluga) references usluga(sifra);
 alter table racun add foreign key (djelatnik) references djelatnik(sifra);
 alter table racun add foreign key (papir) references papir(sifra);
 
@@ -59,13 +57,13 @@ insert into djelatnik(sifra,ime,prezime,oib,email,iban)values
 (null,'Marin','Amidzic','91842195123','marinamidzic@edunova.hr','HR9105281029684102104');
 
 insert into usluga(sifra,naziv,cijena) values
-(null,'Kopiranje',1),
-(null,'Skeniranje',2);
+(null,'Kopiranje',150),
+(null,'Skeniranje',200);
 
-insert into papir(sifra,vrstapapira,usluga) values
-(null,'80gramski',1),
-(null,'250gramski',2);
+insert into papir(sifra,vrstapapira) values
+(null,'80gramski'),
+(null,'250gramski');
 
-insert into racun(sifra,djelatnik,vrstaracuna,usluga,papir) values
-(null,2,'Obican',1,1),
-(null,1,'R1',2,2);
+insert into racun(sifra,djelatnik,klijent,usluga,papir) values
+(null,2,'BIOS',1,1),
+(null,1,'Mehanotehna',2,2);

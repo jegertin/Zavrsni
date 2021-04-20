@@ -7,12 +7,15 @@ class Djelatnik
         $veza = DB::getInstanca();
         $izraz=$veza->prepare('
 
-        select a.*, count(b.sifra) as ukupnoracuna from djelatnik a
-        inner join racun b on a.sifra =b.djelatnik
-        group by a.sifra,a.ime,a.prezime,a.oib,a.email,a.iban;
+            select d.*, count(r.sifra) as ukupnoracuna from djelatnik d
+            left join racun r on d.sifra = r.djelatnik
+            group by d.sifra
 
         ');
         $izraz->execute();
+
+        // echo var_dump($izraz->errorInfo());
+        // exit;
         return $izraz->fetchAll();
     }
 
@@ -20,12 +23,7 @@ class Djelatnik
     {
         $veza = DB::getInstanca();
         $veza->beginTransaction();
-        $izraz=$veza->prepare('
-
-            insert into djelatnik (ime,prezime,oib,email,iban) values
-            (:ime,:prezime,:oib,:email,:iban)
-
-        ');
+        $izraz=$veza->prepare('insert into djelatnik (ime,prezime,oib,email,iban) values (:ime,:prezime,:oib,:email,:iban)');
         $izraz->execute([
             'ime'=>$entitet->ime,
             'prezime'=>$entitet->prezime,
@@ -35,5 +33,16 @@ class Djelatnik
         ]);
         
         $veza->commit();
+    }
+
+    public static function obrisiPostojeceg($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+
+            delete from djelatnik where sifra=:sifra
+
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
     }
 }

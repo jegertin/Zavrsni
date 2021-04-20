@@ -1,0 +1,41 @@
+<form class="log-in-form" 
+    action="<?=App::config('url')?>racun/novo"
+    method="POST">
+  <h4 class="text-center">Dodavanje novog racuna</h4>
+  <label>Klijent
+    <input type="text" name="klijent" value="<?=$racun->klijent?>">
+  </label>
+  <label>Djelatnik
+    <select name="djelatnik">
+        <?php foreach($djelatnici as $djelatnik): ?>
+            <option value="<?= $djelatnik->sifra ?>"><?= $djelatnik->ime . ' ' . $djelatnik->prezime ?></option>
+        <?php endforeach ?>
+    </select>
+  </label>
+  <label>Usluga
+    <select name="usluga">
+        <?php foreach($vrsteUsluga as $vrstaUsluge): ?>
+            <option value="<?= $vrstaUsluge->sifra ?>"><?= $vrstaUsluge->naziv ?></option>
+        <?php endforeach ?>
+    </select>
+  </label>
+  <label>Papir
+    <select name="papir">
+        <?php foreach($vrstePapira as $vrstaPapira): ?>
+            <option value="<?= $vrstaPapira->sifra ?>"><?= $vrstaPapira->vrstapapira ?></option>
+        <?php endforeach ?>
+    </select>
+  </label>
+  
+  <?=$poruka?>
+<div class="grid-x grid-padding-x">
+  <div class="cell small-6 medium-6 large-6">
+    <a class="alert button expanded"
+    href="<?=App::config('url')?>usluga/index">Nazad</a>
+  </div>
+  <div class="cell small-6 medium-6 large-6">
+    <input type="submit" class="button expanded" value="Dodaj"></input></p>
+  </div>
+</div>
+
+</form>

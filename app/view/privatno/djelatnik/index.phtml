@@ -5,6 +5,7 @@
                 <th>OIB</th>
                 <th>Email</th>
                 <th>IBAN</th>
+                <th>Uk. računa</th>
                 <th style="text-align: right;">
                 <a href="<?=App::config('url')?>djelatnik/novo">Dodaj novog</a>
                 </th>
@@ -17,12 +18,13 @@
                 <td><?=$red->oib?></td>
                 <td><?=$red->email?></td>
                 <td><?=$red->iban?></td>
+                <td><?=$red->ukupnoracuna?></td>
                 <td>
-                    <a href="<?=App::config('url')?>djelatnik/promjena?sifra=<?=$djelatnik->sifra?>">Promjeni
+                    <a href="<?=App::config('url')?>djelatnik/promjena?sifra=<?=$red->sifra?>">Promjeni
                     </a>
                     <?php if($red->ukupnoracuna==0):?>
-                        <a href="<?=App::config('url')?>djelatnik/brisanje?sifra=<?=$djelatnik->sifra?>"
-                        onclick="return confirm('Sigurno obrisati <?=$red->ime?> '.' <?=$red->prezime?>?');">Obriši
+                        <a href="<?=App::config('url')?>djelatnik/brisanje?sifra=<?=$red->sifra?>"
+                        onclick="return confirm('Sigurno obrisati <?=$red->ime . ' ' . $red->prezime?>?');">Obriši
                         </a>
                     <?php endif;?>
                 </td>
