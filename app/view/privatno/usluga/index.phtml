@@ -7,7 +7,11 @@
         <a href="<?=App::config('url')?>usluga/promjena?sifra=<?=$usluga->sifra?>">
             Promjeni
         </a>
-        <a href="#">Obriši</a>
+        <?php if($usluga->ukupnopapira==0):?>
+            <a href="<?=App::config('url')?>usluga/brisanje?sifra=<?=$usluga->sifra?>"
+            onclick="return confirm('Sigurno obrisati <?=$usluga->naziv?>?');"
+            >Obriši</a>
+        <?php endif;?>
     </li>
 <?php endforeach; ?>
 </ul>

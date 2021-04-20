@@ -25,7 +25,7 @@ class UslugaController extends AutorizacijaController
             $this->usluga = (object) $_POST;
             if(!$this->kontrolaNaziv()){return;}
             if(!$this->kontrolaCijena()){return;}
-            Usluga::dodajNovu($usluga);
+            Usluga::dodajNovu($this->usluga);
             $this->index();
 
     }
@@ -45,7 +45,23 @@ class UslugaController extends AutorizacijaController
         }
 
         $this->usluga = (object) $_POST;
+        if(!$this->kontrolaNaziv()){return;}
+        if(!$this->kontrolaCijena()){return;}
+        Usluga::promjeniPostojecu($this->usluga);
+        $this->index();
 
+    }
+
+    public function brisanje()
+    {
+        if(!isset($_GET['sifra'])){
+                $ic = new IndexController();
+                $ic->logout();
+                return;
+        }
+        Usluga::obrisiPostojecu($_GET['sifra']);
+        header('location: ' . App::config('url') . 'usluga/index');
+        
     }
 
     private function novaUsluga()

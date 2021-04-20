@@ -19,7 +19,10 @@ class Usluga
         $veza = DB::getInstanca();
         $izraz=$veza->prepare('
 
-            select * from usluga
+        select a.*, count(b.sifra) as ukupnopapira
+        from usluga a 
+        left join papir b on a.sifra=b.usluga
+        group by a.sifra, a.naziv, a.cijena;
 
         ');
         $izraz->execute();
@@ -36,5 +39,30 @@ class Usluga
 
         ');
         $izraz->execute((array)$usluga);
+    }
+
+    public static function promjeniPostojecu($usluga)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+
+            update usluga set 
+            naziv=:naziv,
+            cijena=:cijena,
+            where sifra=:sifra
+
+        ');
+        $izraz->execute((array)$usluga);
+    }
+
+    public static function obrisiPostojecu($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+
+            delete from usluga where sifra=:sifra
+
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
     }
 }
