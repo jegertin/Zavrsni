@@ -1,27 +1,17 @@
-<table>
-    <thead>
-            <tr>
-                <th>Klijent</th>
-                <th>Cijena</th>
-                <a href="<?=App::config('url')?>djelatnik/novo">Dodaj novi</a>
-                </th>
-            </tr>
-    </thead>
-    <tbody>
-        <?php foreach($racuni as $red): ?>
-            <tr>
-                <td><?=$red->klijent?></td>
-                <td><?=$red->cijena?></td>
-                <!-- <td>
-                    <a href="<?=App::config('url')?>djelatnik/promjena?sifra=<?=$red->sifra?>">Promjeni
-                    </a>
-                    <?php if($red->ukupnoracuna==0):?>
-                        <a href="<?=App::config('url')?>djelatnik/brisanje?sifra=<?=$red->sifra?>"
-                        onclick="return confirm('Sigurno obrisati <?=$red->ime . ' ' . $red->prezime?>?');">Obriši
-                        </a>
-                    <?php endif;?>
-                </td> -->
-            </tr>
-        <?php endforeach;?>
-    </tbody>
-</table>
+<h1 style="font-size: 1em;">Papir</h1>
+<a href="<?=App::config('url')?>papir/novo">Dodaj novi papir</a>
+<ul>
+<?php foreach($papiri as $papir): ?>
+    <li>
+        <?=$papir->vrstapapira?>
+        <a href="<?=App::config('url')?>papir/promjena?sifra=<?=$papir->sifra?>">
+            Promjeni
+        </a>
+        <?php if($papir->ukupnoRacuna==0):?>
+            <a href="<?=App::config('url')?>papir/brisanje?sifra=<?=$papir->sifra?>"
+            onclick="return confirm('Sigurno obrisati <?=$papir->naziv?>?');"
+            >Obriši</a>
+        <?php endif;?>
+    </li>
+<?php endforeach; ?>
+</ul>

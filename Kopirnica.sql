@@ -1,7 +1,13 @@
 # c:\xampp\mysql\bin\mysql -uedunova -pedunova < C:\PP22\polaznik28.edunova.hr\Kopirnica.sql
-drop database if exists kopirnica;
-create database kopirnica character set utf8mb4 COLLATE utf8mb4_croatian_ci;
-use kopirnica;
+#drop database if exists kopirnica;
+#create database kopirnica character set utf8mb4 COLLATE utf8mb4_croatian_ci;
+#use kopirnica;
+
+drop table if exists operater;
+drop table if exists djelatnik;
+drop table if exists usluga;
+drop table if exists papir;
+drop table if exists racun;
 
 create table operater(
     sifra int not null primary key auto_increment,

@@ -2,6 +2,18 @@
 
 class Djelatnik
 {
+    public static function ucitaj($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+
+            select * from djelatnik where sifra=:sifra
+
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        return $izraz->fetch();
+    }
+
     public static function ucitajSve()
     {
         $veza = DB::getInstanca();
@@ -34,6 +46,14 @@ class Djelatnik
         
         $veza->commit();
     }
+
+    public static function promjeniPostojeci($djelatnik)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('update djelatnik set ime = :ime, prezime = :prezime, oib = :oib, email = :email, iban = :iban where sifra = :sifra');
+        $izraz->execute((array)$djelatnik);
+    }
+
 
     public static function obrisiPostojeceg($sifra)
     {

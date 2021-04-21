@@ -1,199 +1,116 @@
 <?php
 
-
 class PapirController extends AutorizacijaController
 {
     private $viewDir = 'privatno'
                         . DIRECTORY_SEPARATOR
                         . 'papir'
                         . DIRECTORY_SEPARATOR;
-    
-    private $entitet=null;
+    private $papir=null;
     private $poruka='';
-    private $usluge=null;
-    private $racuni=null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->usluge=Usluga::ucitajSve();
-        
-        $s=new stdClass();
-        $s->sifra=-1;
-        $s->naziv='Odaberite uslugu';
-        array_unshift($this->usluge,$s);
-
-
-        $this->racuni=Racun::ucitajSve();
-        $s=new stdClass();
-        $s->sifra=-1;
-        $s->ime='Odaberite';
-        $s->prezime='Račun';
-        array_unshift($this->racuni,$s);
-    }
 
     public function index()
     {
-
-        $papiri=Papir::ucitajSve();
-
-        foreach($papiri as $p){
-            $p->datumpocetka=date('d.m.Y. H:i', strtotime($g->datumpocetka));
-            if($g->predavac==null){
-                $g->predavac='[nije postavljeno]';
-            }
-        }
-
         $this->view->render($this->viewDir . 'index',[
-            'entiteti'=>$grupe
+            'papiri'=>Papir::ucitajSve()
         ]);
     }
 
     public function novo()
     {
-        if($_SERVER['REQUEST_METHOD']==='GET'){
-            $this->noviEntitet();
-            return;
-        }
-        $this->entitet = (object) $_POST;
-        try {
-            $this->kontrola();
-            $zadnjaSifraGrupe=Grupa::dodajNovi($this->entitet);
-            header('location: ' . App::config('url') . 
-            'grupa/promjena?sifra=' . $zadnjaSifraGrupe);
-        } catch (Exception $e) {
-            $this->poruka=$e->getMessage();
-            $this->novoView();
-        }       
+            if($_SERVER['REQUEST_METHOD']==='GET'){
+                $this->novaPapir();
+                return;
+            }
+            $this->papir = (object) $_POST;
+            if(!$this->kontrolaNaziv()){return;}
+            Papir::dodajNovi($this->papir);
+            $this->index();
+
     }
 
     public function promjena()
     {
         if($_SERVER['REQUEST_METHOD']==='GET'){
             if(!isset($_GET['sifra'])){
-               $ic = new IndexController();
-               $ic->logout();
-               return;
+                $ic = new IndexController();
+                $ic->logout();
+                return;
             }
-            $this->entitet = Grupa::ucitaj($_GET['sifra']);
-            $datum=date('Y-m-d\TH:i', strtotime($this->entitet->datumpocetka));
-            $this->entitet->datumpocetka=$datum;
+            $this->papir = Papir::ucitaj($_GET['sifra']);
             $this->poruka='Promjenite željene podatke';
             $this->promjenaView();
             return;
         }
-        $this->entitet = (object) $_POST;
-        try {
-            $this->kontrola();
-            Grupa::promjeniPostojeci($this->entitet);
-            $this->index();
-        } catch (Exception $e) {
-            $this->poruka=$e->getMessage();
-            $this->promjenaView();
-        }       
-    }
 
+        $this->papir = (object) $_POST;
+        if(!$this->kontrolaNaziv()){return;}
+        Papir::promjeniPostojeci($this->papir);
+        $this->index();
+
+    }
 
     public function brisanje()
     {
         if(!isset($_GET['sifra'])){
-            $ic = new IndexController();
-            $ic->logout();
-            return;
+                $ic = new IndexController();
+                $ic->logout();
+                return;
         }
-        Grupa::obrisiPostojeci($_GET['sifra']);
-        header('location: ' . App::config('url') . 'grupa/index');
-       
+        Papir::obrisiPostojeci($_GET['sifra']);
+        header('location: ' . App::config('url') . 'papir/index');
+        
     }
 
-    public function dodajpolaznika()
+    private function novaPapir()
     {
-        Grupa::dodajPolaznika();
-        echo 'OK';
+            $this->papir = new stdClass();
+            $this->papir->vrstapapira='';
+            $this->poruka='Unesite tražene podatke';
+            $this->novoView();
     }
 
-    public function obrisipolaznika()
+    private function novoView()
     {
-        Grupa::obrisiPolaznika();
-        echo 'OK';
-    }
-
-
-
-
-
-
-
-    
-
-    private function noviEntitet()
-    {
-        $this->entitet = new stdClass();
-        $this->entitet->naziv='';
-        $this->entitet->smjer=-1;
-        $this->entitet->predavac=-1;
-        $this->entitet->datumpocetka=date('Y-m-d\TH:i');
-        $this->poruka='Unesite tražene podatke';
-        $this->novoView();
+        $this->view->render($this->viewDir . 'novo',[
+            'papir'=>$this->papir,
+            'poruka'=>$this->poruka
+        ]);
     }
 
     private function promjenaView()
     {
         $this->view->render($this->viewDir . 'promjena',[
-            'entitet'=>$this->entitet,
-            'poruka'=>$this->poruka,
-            'smjerovi'=>$this->smjerovi,
-            'predavaci'=>$this->predavaci,
-            'css'=>'<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">',
-            'js'=>'<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="' . App::config('url') . 'public/js/grupa/promjena.js"></script>'
+            'papir'=>$this->papir,
+            'poruka'=>$this->poruka
         ]);
-    }
-
-
-    private function novoView()
-    {
-        $this->view->render($this->viewDir . 'novo',[
-            'entitet'=>$this->entitet,
-            'poruka'=>$this->poruka,
-            'smjerovi'=>$this->smjerovi,
-            'predavaci'=>$this->predavaci
-        ]);
-    }
-
-    private function kontrola()
-    {
-        $this->kontrolaNaziv();
-        $this->kontrolaSmjer();
-        $this->kontrolaPredavac();
     }
 
     private function kontrolaNaziv()
     {
-        if(strlen(trim($this->entitet->naziv))==0){
-            throw new Exception('Naziv obavezno');
+        if(strlen(trim($this->papir->vrstapapira))===0){
+            $this->poruka='Naziv obavezno';
+            $this->novoView();
+            return false;
         }
 
-        if(strlen(trim($this->entitet->naziv))>20){
-            throw new Exception('Naziv predugačko');
+        if(strlen(trim($this->papir->vrstapapira))>50){
+            $this->poruka='Naziv ne može imati više od 50 znakova';
+            $this->novoView();
+            return false;
         }
+        return true;
     }
 
-    private function kontrolaSmjer()
+    private function kontrolaCijena()
     {
-        if($this->entitet->smjer==-1){
-            throw new Exception('Smjer obavezno');
-        }
+        $this->papir->cijena=str_replace(',','.',$this->papir->cijena);
+        if(!is_numeric($this->papir->cijena)
+            || ((float)$this->papir->cijena)<=0){
+                $this->poruka='Cijena mora biti pozitivan broj';
+                $this->novoView();
+            return false;
+            }
+    return true;
     }
-
-    private function kontrolaPredavac()
-    {
-        if($this->entitet->predavac==-1){
-            throw new Exception('Predavač obavezno');
-        }
-    }
-
-
-
 }

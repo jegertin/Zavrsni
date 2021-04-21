@@ -2,59 +2,57 @@
 
 class Papir
 {
-    // public static function ucitaj($sifra)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('
+    public static function ucitaj($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
 
-    //         select * from usluga where sifra=:sifra
+            select * from papir where sifra=:sifra
 
-    //     ');
-    //     $izraz->execute(['sifra'=>$sifra]);
-    //     return $izraz->fetch();
-    // }
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        return $izraz->fetch();
+    }
 
     public static function ucitajSve()
     {
         $veza = DB::getInstanca();
         $izraz=$veza->prepare('
 
-        select * from papir
+        select p.*, count(r.sifra) as ukupnoRacuna from papir p left join racun r on r.papir = p.sifra group by p.sifra
 
         ');
         $izraz->execute();
-        // echo var_dump($izraz->errorInfo());
-        // exit;
         return $izraz->fetchAll();
     }
 
-    // public static function dodajNovu($usluga)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('
+    public static function dodajNovi($papir)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
 
-    //         insert into usluga (naziv,cijena)
-    //         values (:naziv,:cijena)
+            insert into papir (vrstapapira)
+            values (:vrstapapira)
 
-    //     ');
-    //     $izraz->execute((array)$usluga);
-    // }
+        ');
+        $izraz->execute((array)$papir);
+    }
 
-    // public static function promjeniPostojecu($usluga)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('update usluga set naziv = :naziv, cijena = :cijena where sifra = :sifra');
-    //     $izraz->execute((array)$usluga);
-    // }
+    public static function promjeniPostojeci($papir)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('update papir set vrstapapira = :vrstapapira where sifra = :sifra');
+        $izraz->execute((array)$papir);
+    }
 
-    // public static function obrisiPostojecu($sifra)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('
+    public static function obrisiPostojeci($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
 
-    //         delete from usluga where sifra=:sifra
+            delete from papir where sifra=:sifra
 
-    //     ');
-    //     $izraz->execute(['sifra'=>$sifra]);
-    // }
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+    }
 }

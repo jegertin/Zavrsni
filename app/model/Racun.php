@@ -2,17 +2,17 @@
 
 class Racun
 {
-    // public static function ucitaj($sifra)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('
+    public static function ucitaj($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
 
-    //         select * from usluga where sifra=:sifra
+            select * from racun where sifra=:sifra
 
-    //     ');
-    //     $izraz->execute(['sifra'=>$sifra]);
-    //     return $izraz->fetch();
-    // }
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        return $izraz->fetch();
+    }
 
     public static function ucitajSve()
     {
@@ -43,21 +43,21 @@ class Racun
         $izraz->execute((array)$racun);
     }
 
-    // public static function promjeniPostojecu($usluga)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('update usluga set naziv = :naziv, cijena = :cijena where sifra = :sifra');
-    //     $izraz->execute((array)$usluga);
-    // }
+    public static function promjeniPostojeci($racun)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('update racun set djelatnik = :djelatnik, klijent = :klijent, usluga = :usluga, papir = :papir where sifra = :sifra');
+        $izraz->execute((array)$racun);
+    }
 
-    // public static function obrisiPostojecu($sifra)
-    // {
-    //     $veza = DB::getInstanca();
-    //     $izraz=$veza->prepare('
+    public static function obrisiPostojeci($sifra)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
 
-    //         delete from usluga where sifra=:sifra
+            delete from racun where sifra=:sifra
 
-    //     ');
-    //     $izraz->execute(['sifra'=>$sifra]);
-    // }
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+    }
 }
